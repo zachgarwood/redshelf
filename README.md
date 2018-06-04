@@ -166,6 +166,22 @@ Thank you for your interest and good luck!
 
 **Assumptions**
 
+This program was tested with Python 3.6 on Ubuntu 16.04, and it may not work with other versions of
+Python or on other platforms. It is assumed that `git` and `pipenv` are installed.
+
+The data files `purchase_buckets.csv` and `purchase_data.csv` must be present in the `data`
+directory.
+
 **Design**
 
 **Other Notes**
+
+## Installation
+
+1. Clone the repository: `git clone TODO`
+2. Enter the project directory: `cd redshelf`
+3. Install dependencies: `pipenv install --ignore-pipfile` 
+
+## Usage 
+
+`python purchase_sort.py`
