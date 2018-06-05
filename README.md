@@ -178,7 +178,7 @@ directory.
 
 ## Installation
 
-1. Clone the repository: `git clone TODO`
+1. Clone the repository: `git clone https://github.com/zachgarwood/redshelf.git`
 2. Enter the project directory: `cd redshelf`
 3. Install dependencies: `pipenv install --ignore-pipfile` 
 
