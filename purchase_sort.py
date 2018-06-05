@@ -22,7 +22,7 @@ def main():
     purchases = import_from_file(PURCHASES_FILE_PATH, PURCHASES_FILE_FIELDS)
 
     with open(SORTED_PURCHASES_FILE_PATH, 'w') as output_file:
-        json.dump(buckets, output_file)
+        json.dump(sort_purchases(purchases, buckets), output_file)
 
 def import_from_file(file_path, field_names):
     """Import csv data from a file path into an OrderedDict with the appropriate field names."""
@@ -33,6 +33,16 @@ def import_from_file(file_path, field_names):
         for line in reader:
             data.append(line)
     return data
+
+def sort_purchases(purchases, buckets):
+    sorted_purchases = []
+    for bucket in buckets:
+        bucket_label = create_bucket_label(bucket)
+        sorted_purchases.append({'bucket': bucket_label, 'purchases': []})
+    return sorted_purchases
+
+def create_bucket_label(bucket):
+    return ','.join([bucket['publisher'], bucket['price'], bucket['duration']])
 
 if __name__ == '__main__':
     try:
