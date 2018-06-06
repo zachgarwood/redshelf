@@ -184,4 +184,4 @@ directory.
 
 ## Usage 
 
-`python purchase_sort.py`
+`python -m purchase_sort.py`
