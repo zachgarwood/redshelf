@@ -166,13 +166,35 @@ Thank you for your interest and good luck!
 
 **Assumptions**
 
-This program was tested with Python 3.6 on Ubuntu 16.04, and it may not work with other versions of
-Python or on other platforms. It is assumed that `git` and `pipenv` are installed.
+This program was tested with Python 3.6 on Ubuntu 16.04, and it may not work with other versions of Python or on other
+platforms. It is assumed that `git` and `pipenv` are installed.
 
-The data files `purchase_buckets.csv` and `purchase_data.csv` must be present in the `data`
-directory.
+The data files `purchase_buckets.csv` and `purchase_data.csv` are included and must be present in the `data` directory.
+Also, it is assumed that a '*,*'*' bucket entry already exists in the `purchase_buckets.csv` file.
 
 **Design**
+
+The program is broken up into several modules:
+
+### `__main__`
+
+The entry point for the program. It handles being run as a package or from the command line.
+
+### `data_io`
+
+Handles the input/output of data from/to files of various data formats (csv and json). The file paths are all hard-
+coded into the `data_io` module, which is less than ideal, but this could fairly easily be updated if/when a feature
+request comes in for dynamically handling various file paths.
+
+### `sorter`
+
+Handles the brunt of the functionality of sorting purchases into buckets. The `meets_criteria` and `find_specificity`
+functions contain the business logic laid out above, and so are more heavily documented.
+
+### `bucket` and `purchase`
+
+Data objects for representing bucket and purchase records in memory. They hold the logic for serializing/unserializing
+and comparing objects.
 
 **Other Notes**
 
@@ -182,6 +204,12 @@ directory.
 2. Enter the project directory: `cd redshelf`
 3. Install dependencies: `pipenv install --ignore-pipfile` 
 
+## Testing
+
+`python -m pytest`
+
 ## Usage 
 
-`python -m purchase_sort.py`
+`python -m purchase_sort`
+
+This will output a json file named `sorted_purchases.json`.
