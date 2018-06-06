@@ -50,4 +50,4 @@ def export_data(sorted_purchases):
                         'purchases': [str(purchase) for purchase in entry['purchases']]}
                        for entry in sorted_purchases]
     with open(SORTED_PURCHASES_FILE_PATH, 'w') as output_file:
-        json.dump(serialized_data, output_file)
+        json.dump(serialized_data, output_file, indent=4)

@@ -2,7 +2,7 @@
 
 import sys
 
-from . import data_file
+from . import data_io
 from . import sorter
 
 def main():
@@ -11,10 +11,10 @@ def main():
     export the sorted data
     """
 
-    buckets = data_file.import_buckets(data_file.BUCKETS_FILE_PATH)
-    purchases = data_file.import_purchases(data_file.PURCHASES_FILE_PATH)
+    buckets = data_io.import_buckets(data_io.BUCKETS_FILE_PATH)
+    purchases = data_io.import_purchases(data_io.PURCHASES_FILE_PATH)
     sorted_purchases = sorter.sort_purchases(purchases, buckets)
-    data_file.export_data(sorted_purchases)
+    data_io.export_data(sorted_purchases)
 
 if __name__ == '__main__':
     try:
