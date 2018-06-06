@@ -10,8 +10,8 @@ def main():
     Load the external data files, sort the purchases into buckets, and then
     export the sorted data
     """
-    buckets = data_file.import_data(data_file.BUCKETS_FILE_PATH,
-                                    data_file.BUCKETS_FILE_FIELDS)
+
+    buckets = data_file.import_buckets(data_file.BUCKETS_FILE_PATH)
     purchases = data_file.import_data(data_file.PURCHASES_FILE_PATH,
                                       data_file.PURCHASES_FILE_FIELDS)
     sorted_purchases = sorter.sort_purchases(purchases, buckets)

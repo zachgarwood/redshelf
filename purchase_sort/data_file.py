@@ -3,6 +3,8 @@
 import csv
 import json
 
+from .bucket import Bucket
+
 BUCKETS_FILE_FIELDS = ['publisher', 'price', 'duration']
 BUCKETS_FILE_PATH = 'data/purchase_buckets.csv'
 PURCHASES_FILE_FIELDS = ['order_id',
@@ -14,6 +16,12 @@ PURCHASES_FILE_FIELDS = ['order_id',
                          'order_datetime']
 PURCHASES_FILE_PATH = 'data/purchase_data.csv'
 SORTED_PURCHASES_FILE_PATH = 'sorted_purchases.json'
+
+def import_buckets(file_path):
+    """Import data from file and cast to Bucket"""
+
+    data = import_data(file_path, BUCKETS_FILE_FIELDS)
+    return [Bucket(**datum) for datum in data]
 
 def import_data(file_path, field_names):
     """Import csv data from a file path into an OrderedDict with the appropriate field names"""

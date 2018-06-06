@@ -2,7 +2,7 @@ from unittest import TestCase
 import json
 import os
 
-from purchase_sort import bucket, data_file, sorter
+from purchase_sort import data_file, sorter
 from purchase_sort.__main__ import main as run_purchase_sort
 
 class TestPurchaseSort(TestCase):
@@ -21,17 +21,21 @@ class TestPurchaseSort(TestCase):
         sorted_purchases = self.get_sorted_purchases()
         assert isinstance(sorted_purchases, list)
 
-        first_bucket = sorted_purchases.pop()
-        assert 'bucket' in first_bucket
-        assert isinstance(first_bucket['purchases'], list)
+        bucket = sorted_purchases.pop()
+        assert 'bucket' in bucket
+        assert isinstance(bucket['purchases'], list)
 
     def test_output_file_is_in_correct_order(self):
-        original_buckets = data_file.import_data(data_file.BUCKETS_FILE_PATH,
-                                                 data_file.BUCKETS_FILE_FIELDS)
+        buckets = self.get_buckets()
         sorted_purchases = self.get_sorted_purchases()
-        for index, single_bucket in enumerate(original_buckets):
-            bucket_label = bucket.create_bucket_label(single_bucket)
-            sorted_purchases[index]['bucket'] = bucket_label
+        for index, bucket in enumerate(buckets):
+            assert sorted_purchases[index]['bucket'] == str(bucket)
+
+    def test_duplicate_buckets_in_output_file_are_empty(self):
+        pass
+
+    def get_buckets(self):
+        return data_file.import_buckets(data_file.BUCKETS_FILE_PATH)
 
     def get_sorted_purchases(self):
         with open(data_file.SORTED_PURCHASES_FILE_PATH) as output_file:

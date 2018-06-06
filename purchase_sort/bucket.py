@@ -1,6 +1,12 @@
 """Handle buckets"""
 
-def create_bucket_label(bucket):
-    """Concatenate bucket properties into a single label"""
+class Bucket:
+    """Data object for buckets"""
+    
+    def __init__(self, **kwargs):
+        self.publisher = kwargs['publisher']
+        self.price = kwargs['price']
+        self.duration = kwargs['duration']
 
-    return ','.join([bucket['publisher'], bucket['price'], bucket['duration']])
+    def __repr__(self):
+        return ','.join([self.publisher, self.price, self.duration])
