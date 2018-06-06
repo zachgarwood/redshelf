@@ -4,7 +4,7 @@ import csv
 import json
 
 from .bucket import Bucket
-from .purchase import Purchase 
+from .purchase import Purchase
 
 BUCKETS_FILE_FIELDS = ['publisher', 'price', 'duration']
 BUCKETS_FILE_PATH = 'data/purchase_buckets.csv'
@@ -41,11 +41,13 @@ def extract_data(iterable, field_names):
     """Extract csv data from an iterable into an OrderedDict with the appropriate field names"""
 
     reader = csv.DictReader(iterable, field_names)
-    data = []
     return [line for line in reader]
 
 def export_data(sorted_purchases):
-    """Export sorted purchase data into a json file"""
+    """Serialize the sorted purchases data and export into a json file"""
 
+    serialized_data = [{'bucket': str(entry['bucket']),
+                        'purchases': [str(purchase) for purchase in entry['purchases']]}
+                       for entry in sorted_purchases]
     with open(SORTED_PURCHASES_FILE_PATH, 'w') as output_file:
-        json.dump(sorted_purchases, output_file)
+        json.dump(serialized_data, output_file)

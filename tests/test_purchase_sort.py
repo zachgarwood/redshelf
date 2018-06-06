@@ -30,7 +30,6 @@ def test_output_file_is_in_correct_order(output_file):
         assert purchases == sorted(purchases, key=lambda purchase: purchase.order_id),\
                'The output purchases are sorted by order_id.'
 
-@pytest.mark.xfail
 def test_duplicate_buckets_in_output_file_are_empty(output_file):
     buckets = get_buckets()
     duplicates = set(str(bucket)

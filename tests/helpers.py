@@ -15,6 +15,7 @@ def unserialize_bucket(bucket):
 
 def unserialize_purchase(purchase):
     """Unserialize a single csv-encoded purchase"""
+
     purchase_data = data_file.extract_data([purchase], data_file.PURCHASES_FILE_FIELDS)[0]
     return Purchase(**purchase_data)
 
@@ -31,6 +32,8 @@ def get_sorted_purchases():
     return sorted_purchases
 
 def output_file_exists():
+    """Check if output file exists"""
+
     return os.path.exists(data_file.SORTED_PURCHASES_FILE_PATH)
 
 def delete_output_file():

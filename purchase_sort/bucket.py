@@ -12,4 +12,4 @@ class Bucket:
         return ','.join([self.publisher, self.price, self.duration])
 
     def __eq__(self, other):
-        return self.__dict__ == other.__dict__
+        return str(self).lower() == str(other).lower()

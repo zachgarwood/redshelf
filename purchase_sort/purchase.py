@@ -15,12 +15,9 @@ class Purchase:
 
     def __repr__(self):
         return ','.join([self.order_id,
-                       self.isbn,
-                       self.publisher,
-                       self.school,
-                       self.price,
-                       self.duration,
-                       self.order_datetime])
-
-    def __eq__(self, other):
-        return self.__dict__ == other.__dict__
+                         self.isbn,
+                         self.publisher,
+                         self.school,
+                         self.price,
+                         self.duration,
+                         self.order_datetime])
