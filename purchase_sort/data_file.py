@@ -4,6 +4,7 @@ import csv
 import json
 
 from .bucket import Bucket
+from .purchase import Purchase 
 
 BUCKETS_FILE_FIELDS = ['publisher', 'price', 'duration']
 BUCKETS_FILE_PATH = 'data/purchase_buckets.csv'
@@ -23,15 +24,25 @@ def import_buckets(file_path):
     data = import_data(file_path, BUCKETS_FILE_FIELDS)
     return [Bucket(**datum) for datum in data]
 
-def import_data(file_path, field_names):
-    """Import csv data from a file path into an OrderedDict with the appropriate field names"""
+def import_purchases(file_path):
+    """Import data from file and cast to Purchase"""
 
-    data = []
+    data = import_data(file_path, PURCHASES_FILE_FIELDS)
+    return [Purchase(**datum) for datum in data]
+
+def import_data(file_path, field_names):
+    """Import data from a file path"""
+
     with open(file_path) as file_handle:
-        reader = csv.DictReader(file_handle, field_names)
-        for line in reader:
-            data.append(line)
+        data = extract_data(file_handle, field_names)
     return data
+
+def extract_data(iterable, field_names):
+    """Extract csv data from an iterable into an OrderedDict with the appropriate field names"""
+
+    reader = csv.DictReader(iterable, field_names)
+    data = []
+    return [line for line in reader]
 
 def export_data(sorted_purchases):
     """Export sorted purchase data into a json file"""

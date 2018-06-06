@@ -5,5 +5,6 @@ def sort_purchases(purchases, buckets):
 
     sorted_purchases = []
     for bucket in buckets:
-        sorted_purchases.append({'bucket': str(bucket), 'purchases': purchases})
+        sorted_purchases.append({'bucket': str(bucket),
+                                 'purchases': [str(purchase) for purchase in purchases]})
     return sorted_purchases

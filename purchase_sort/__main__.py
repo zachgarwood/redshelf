@@ -12,8 +12,7 @@ def main():
     """
 
     buckets = data_file.import_buckets(data_file.BUCKETS_FILE_PATH)
-    purchases = data_file.import_data(data_file.PURCHASES_FILE_PATH,
-                                      data_file.PURCHASES_FILE_FIELDS)
+    purchases = data_file.import_purchases(data_file.PURCHASES_FILE_PATH)
     sorted_purchases = sorter.sort_purchases(purchases, buckets)
     data_file.export_data(sorted_purchases)
 
