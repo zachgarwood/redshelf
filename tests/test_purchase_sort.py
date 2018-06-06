@@ -1,18 +1,16 @@
-import json
-import os
 import pytest
 
-from purchase_sort import data_file, sorter
-from purchase_sort.__main__ import main as run_purchase_sort
+from purchase_sort.__main__ import main as purchase_sort
+from tests.helpers import *
 
 @pytest.fixture(scope='module')
 def output_file():
-    output_file = run_purchase_sort()
+    output_file = purchase_sort()
     yield output_file 
     delete_output_file()
 
-def test_purchase_sort_creates_json_file(output_file):
-    assert os.path.exists(data_file.SORTED_PURCHASES_FILE_PATH)
+def test_output_file_is_created(output_file):
+    assert output_file_exists()
 
 def test_output_file_is_in_correct_format(output_file):
     sorted_purchases = get_sorted_purchases()
@@ -25,8 +23,12 @@ def test_output_file_is_in_correct_format(output_file):
 def test_output_file_is_in_correct_order(output_file):
     buckets = get_buckets()
     sorted_purchases = get_sorted_purchases()
-    for index, bucket in enumerate(buckets):
-        assert sorted_purchases[index]['bucket'] == str(bucket)
+    for index, bucket in enumerate(sorted_purchases):
+        assert unserialize_bucket(bucket['bucket']) == buckets[index],\
+               'The output bucket is equal to the input bucket at the same index in both lists.'
+        purchases = [unserialize_purchase(purchase) for purchase in bucket['purchases']]
+        assert purchases == sorted(purchases, key=lambda purchase: purchase.order_id),\
+               'The output purchases are sorted by order_id.'
 
 @pytest.mark.xfail
 def test_duplicate_buckets_in_output_file_are_empty(output_file):
@@ -36,22 +38,12 @@ def test_duplicate_buckets_in_output_file_are_empty(output_file):
                         if bucket in buckets[:index])
     sorted_purchases = get_sorted_purchases()
     examined_duplicates = set() 
-    for sorted_bucket in sorted_purchases:
-        bucket_label = sorted_bucket['bucket']
+    for bucket in sorted_purchases:
+        bucket_label = bucket['bucket']
         if bucket_label in duplicates:
             if bucket_label in examined_duplicates:
-                assert sorted_bucket['purchases'] == []
+                assert bucket['purchases'] == [],\
+                       'If the bucket is a duplicate and it is not the first copy, then it '\
+                       'should not have any corresponding purchases.'
             else:
                 examined_duplicates.add(bucket_label)
-
-def get_buckets():
-    return data_file.import_buckets(data_file.BUCKETS_FILE_PATH)
-
-def get_sorted_purchases():
-    with open(data_file.SORTED_PURCHASES_FILE_PATH) as output_file:
-        sorted_purchases = json.load(output_file)
-    return sorted_purchases
-
-def delete_output_file():
-    if os.path.exists(data_file.SORTED_PURCHASES_FILE_PATH):
-        os.remove(data_file.SORTED_PURCHASES_FILE_PATH)
