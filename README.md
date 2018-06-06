@@ -170,7 +170,7 @@ This program was tested with Python 3.6 on Ubuntu 16.04, and it may not work wit
 platforms. It is assumed that `git` and `pipenv` are installed.
 
 The data files `purchase_buckets.csv` and `purchase_data.csv` are included and must be present in the `data` directory.
-Also, it is assumed that a '*,*'*' bucket entry already exists in the `purchase_buckets.csv` file.
+Also, it is assumed that a '\*,\*,\*' bucket entry already exists in the `purchase_buckets.csv` file.
 
 **Design**
 
