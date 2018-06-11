@@ -57,7 +57,7 @@ def find_specificity(bucket):
     Determine a bucket's specificity.
 
     Specificity is determined by how many nonwildcard criteria matches it
-    contains, and, in case of a tie, the weight of the most specific matching
+    contains, and, in case of a tie, the combined weight of the matching
     criteria. The weight of the criteria is determined by the order of
     CRITERIA which is listed from least specific to most. The index of each
     criteria in the list is used as its implicit weight.
@@ -65,7 +65,7 @@ def find_specificity(bucket):
     To accomplish all this we calculate a specificity score that is a two
     digit decimal number where the 10s position represents the number of
     nonwildcard matches and the 1s position represents the weight of the
-    most specific criteria.
+    nonwildcard criteria.
 
     Examples:
 
@@ -73,16 +73,18 @@ def find_specificity(bucket):
      'duration': 'matching value',
      'price': 'matching value'}
     This bucket has two nonwildcard matching values, so it gets a `matches`
-    value of '20'. And its most specific criteria value is 'duration', which
-    has an index in CRITERIA of '1', so it gets a `weight` value of '1'. When
-    we add these to values together, we get a total specificity score of '21'.
+    value of '20'. And due to the combined weight of its matching criteria,
+    'duration' and 'price', which have indices in CRITERIA of '1' and '0',
+    respectively, it gets a `weight` value of '1'. When we add the `matches`
+    and `weight` values together, we get a total specificity score of '21'.
 
     {'publisher': 'matching value',
      'duration': 'matching value',
      'price': 'wildcard'}
     Compare the previous bucket to this one. It has a also has a `matches`
-    value of '20' but the `weight` value is '2' due to the most specific
-    criteria being 'publisher'. So its specificity score comes out to '22'.
+    value of '20' but the `weight` value is '3', due to the combined weight of
+    'publisher' (CRITERIA[2]) and 'duration' (CRITERIA[1]). So its specificity
+    score comes out to '23'.
     """
 
     matches = 0
@@ -90,5 +92,5 @@ def find_specificity(bucket):
     for index, criterion in enumerate(CRITERIA):
         if getattr(bucket, criterion) != WILDCARD:
             matches += 10
-            weight = index
+            weight += index
     return matches + weight
